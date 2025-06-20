@@ -14,10 +14,16 @@ jobs:
         - name: Checkout Repo
           uses: actions/checkout@master
 
-        - name: Test Open Source Dependencies with Snyk
-          uses: snyk/actions/golang@master
+        - name: Setup Snyk
           env:
+            SNYK_API: ${{ secrets.SNYK_API }}
             SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-          with:
-            command: test
-            args: --all-projects
+          run: snyk auth "$SNYK_TOKEN"
+
+        - name: Snyk Open Source Scanning
+          run: snyk test --org=${{ secrets.SNYK_ORG }} --all-projects
+          continue-on-error: true
+
+        - name: Snyk Open Source Monitor
+          run: snyk monitor --org=${{ secrets.SNYK_ORG }} --all-projects
+          
