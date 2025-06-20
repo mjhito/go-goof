@@ -13,7 +13,14 @@ jobs:
     steps:
         - name: Checkout Repo
           uses: actions/checkout@master
-
+        - name: Use Node.js for installing Snyk
+          uses: actions/setup-node@v2
+          with:
+            node-version: 18.4
+        
+              # Install & prepare Snyk
+        - run: npm install --location=global snyk
+      
         - name: Setup Snyk
           env:
             SNYK_API: ${{ secrets.SNYK_API }}
