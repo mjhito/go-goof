@@ -7,6 +7,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/gogs/gogs/pkg/tool"
 	"github.com/pstember/go-goof/hello"
+	"github.com/go-chi/chi/v5"
 )
 
 func main() {
