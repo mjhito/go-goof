@@ -1,0 +1,29 @@
+name: Snyk Monitor on Commit
+
+on:
+  push:
+    branches:
+      - 'master'
+
+jobs:
+  snyk-monitor-only:
+    runs-on: ubuntu-latest
+    env:
+      SNYK_API: https://api.us.snyk.io
+      
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v3
+
+      - name: 🔧 Setup Snyk
+        uses: snyk/actions/setup@master
+        
+      - name: Use Node.js for installing Snyk
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18.4
+
+      - name: Snyk Open Source Monitor
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        run: snyk monitor --org=${{ secrets.SNYK_ORG }} --all-projects
