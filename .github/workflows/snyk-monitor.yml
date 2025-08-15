@@ -1,4 +1,4 @@
-name: Snyk Monitor on Commit
+name: Snyk Monitor on Merge
 
 on:
   pull_request:
