@@ -34,12 +34,5 @@ jobs:
           run: snyk test --org=${{ secrets.SNYK_ORG }} --all-projects
           continue-on-error: true
 
-        - name: Snyk Open Source Monitor
-          if: github.event_name == 'push'
-          env:
-            SNYK_API: ${{ secrets.SNYK_API }}
-            SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-          run: |
-            snyk auth "$SNYK_TOKEN"
-            snyk monitor --org=${{ secrets.SNYK_ORG }} --all-projects
+    
           
