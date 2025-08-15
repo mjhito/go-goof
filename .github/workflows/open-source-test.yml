@@ -1,11 +1,10 @@
 name: Snyk Open Source Test
 
 on:
-  workflow_dispatch:
-  workflow_call:
   push:
-    branches:
-      - 'master'
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
 
 jobs:
   security-analysis:
@@ -26,12 +25,12 @@ jobs:
             node-version: 18.4
 
         - name: Snyk Open Source Scanning
-          env:
-            SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
           run: |
             echo "⏱️ Starting Snyk Container scan..."
             snyk test --org=${{ secrets.SNYK_ORG }} --all-projects
-          continue-on-error: true
+          env:
+            SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+     
 
     
           
