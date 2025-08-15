@@ -1,7 +1,9 @@
 name: Snyk Monitor on Commit
 
 on:
-  push:
+  pull_request:
+    types:
+      - closed
     branches:
       - 'master'
 
