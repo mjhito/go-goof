@@ -39,5 +39,7 @@ jobs:
           env:
             SNYK_API: ${{ secrets.SNYK_API }}
             SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-          run: snyk monitor --org=${{ secrets.SNYK_ORG }} --all-projects
+          run: |
+            snyk auth "$SNYK_TOKEN"
+            snyk monitor --org=${{ secrets.SNYK_ORG }} --all-projects
           
