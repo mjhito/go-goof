@@ -39,4 +39,11 @@ jobs:
             SNYK_API: ${{ secrets.SNYK_API }}
             SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
           run: snyk monitor --org=${{ secrets.SNYK_ORG }} --all-projects
+
+        - name: Snyk Open Source Monitor
+          if: github.event_name == 'push'
+          env:
+            SNYK_API: ${{ secrets.SNYK_API }}
+            SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+          run: snyk monitor --org=prod-team --all-projects
           
