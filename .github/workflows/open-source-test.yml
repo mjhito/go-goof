@@ -27,7 +27,7 @@ jobs:
         - name: Snyk Open Source Scanning
           run: |
             echo "⏱️ Starting Snyk Container scan..."
-            snyk test --org=${{ secrets.SNYK_ORG }} --all-projects
+            snyk test --all-projects
           env:
             SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
      
