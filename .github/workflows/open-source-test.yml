@@ -8,30 +8,29 @@ on:
       - 'master'
 
 jobs:
-  open-source-test:
+  security-analysis:
+    name: 🛡️ Snyk Open Source Security Analysis
     runs-on: ubuntu-latest
+    env:
+      SNYK_API: https://api.us.snyk.io
     steps:
         - name: Checkout Repo
           uses: actions/checkout@master
+          
+        - name: 🔧 Setup Snyk
+          uses: snyk/actions/setup@master
+          
         - name: Use Node.js for installing Snyk
           uses: actions/setup-node@v2
           with:
             node-version: 18.4
-        
-              # Install & prepare Snyk
-        - run: npm install --location=global snyk
-      
-        - name: Setup Snyk
-          env:
-            SNYK_API: ${{ secrets.SNYK_API }}
-            SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-          run: snyk auth "$SNYK_TOKEN"
 
         - name: Snyk Open Source Scanning
           env:
-            SNYK_API: ${{ secrets.SNYK_API }}
             SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-          run: snyk test --org=${{ secrets.SNYK_ORG }} --all-projects
+          run: |
+            echo "⏱️ Starting Snyk Container scan..."
+            snyk test --org=${{ secrets.SNYK_ORG }} --all-projects
           continue-on-error: true
 
     
