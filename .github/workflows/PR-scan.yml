@@ -1,0 +1,38 @@
+name: Snyk PR Scan
+
+on:
+  pull_request:
+    types: [opened, synchronize]
+    branches:
+      - 'master'
+
+jobs:
+  snyk-monitor-only:
+    runs-on: ubuntu-latest
+    env:
+      SNYK_API: https://api.us.snyk.io
+      
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v3
+
+      - name: 🔧 Setup Snyk
+        uses: snyk/actions/setup@master
+        
+      - name: Use Node.js for installing Snyk
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18.4
+
+      - name: Install Snyk delta
+        run: |
+          npm i -g snyk-delta
+        env:
+            SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+
+      - name: Snyk Open Source Scanning
+        run: |
+          echo "⏱️ Starting Snyk open source scan..."
+          snyk test --json --print-deps | snyk-delta
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
