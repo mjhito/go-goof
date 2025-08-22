@@ -7,7 +7,7 @@ on:
       - 'master'
 
 jobs:
-  snyk-monitor-only:
+  snyk-delta-only:
     runs-on: ubuntu-latest
     env:
       SNYK_API: https://api.us.snyk.io
